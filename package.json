@@ -8,6 +8,8 @@
   "main": "server.js",
   "scripts": {
     "start": "babel-node server.js",
+    "build-client": "webpack",
+    "dev": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Olli Mahlamäki",
@@ -16,6 +18,11 @@
     "@babel/core": "7.2.2",
     "@babel/node": "7.2.2",
     "@babel/preset-env": "7.2.3",
-    "express": "4.16.4"
+    "babel-loader": "8.0.5",
+    "express": "4.16.4",
+    "webpack": "4.28.3"
+  },
+  "devDependencies": {
+    "webpack-cli": "3.2.1"
   }
 }
