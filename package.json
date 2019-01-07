@@ -10,7 +10,8 @@
     "start": "babel-node server.js",
     "build-client": "webpack",
     "dev": "webpack --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "npm run build-client"
   },
   "author": "Olli Mahlamäki",
   "license": "MIT",
