@@ -1,0 +1,21 @@
+{
+  "name": "draw.ota1.org",
+  "version": "0.0.1",
+  "description": "",
+  "engines": {
+    "node": "10.x"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "babel-node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Olli Mahlamäki",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "7.2.2",
+    "@babel/node": "7.2.2",
+    "@babel/preset-env": "7.2.3",
+    "express": "4.16.4"
+  }
+}

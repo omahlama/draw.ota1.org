@@ -1,0 +1,28 @@
+body {
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #fff;
+}
+
+#head {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#canvas {
+    width: 1000px;
+    height: 1000px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    cursor: default;
+}
+
+#changes {
+    white-space: pre-wrap;
+}
