@@ -1,10 +1,11 @@
 const path = require("path");
+const htmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "static"),
-    filename: "bundle.js"
+    filename: "[name].[chunkhash].js"
   },
   module: {
     rules: [
@@ -15,5 +16,12 @@ module.exports = {
         use: ["babel-loader"]
       }
     ]
-  }
+  },
+  // Plugins
+  plugins: [
+    new htmlWebpackPlugin({
+      template: './src/index.html',
+      filename: 'index.html'
+    })
+  ],
 };

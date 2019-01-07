@@ -8,7 +8,7 @@
   "main": "server.js",
   "scripts": {
     "start": "babel-node server.js",
-    "build-client": "webpack",
+    "build-client": "webpack -p",
     "dev": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "npm run build-client"
@@ -21,6 +21,7 @@
     "@babel/preset-env": "7.2.3",
     "babel-loader": "8.0.5",
     "express": "4.16.4",
+    "html-webpack-plugin": "3.2.0",
     "webpack": "4.28.3"
   },
   "devDependencies": {
