@@ -1,8 +1,6 @@
 import { MongoClient } from "mongodb";
 
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
-
-const dbName = "drawOta1";
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017/drawOta1";
 
 const client = new MongoClient(url);
 
@@ -11,7 +9,7 @@ let id = null;
 const createClient = callback => {
   client.connect(function(err, client) {
     console.log("connected to mongo");
-    const db = client.db(dbName);
+    const db = client.db();
     const pixelsCol = db.collection("pixels");
 
     const save = data => {

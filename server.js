@@ -16,16 +16,14 @@ const server = http.Server(app);
 const io = socketIO(server);
 
 createMongo(({ save, restore }) => {  
-  console.log('a', restore)
   restore(pixels => {
-    console.log('b')
     if(pixels) {
       state.setState(pixels);
     }
     io.on("connection", socket => {
-      console.log("A user connected");
+      console.log("A user connected", socket.id);
       socket.on("disconnect", () => {
-        console.log("user disconnected");
+        console.log("user disconnected", socket.id);
       });
       
       socket.on("SET_PIXEL", ({ x, y, color }) => {
