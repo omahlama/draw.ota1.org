@@ -32,7 +32,7 @@ const createClient = callback => {
             pixels: data
           },
           (err, result) => {
-            console.log("insert", result);
+            console.log("insert", err, result);
             if (result && result.insertedId) {
               id = result.insertedId;
             }
