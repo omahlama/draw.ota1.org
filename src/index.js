@@ -1,5 +1,10 @@
+import Shake from 'shake.js';
 import createClient from "./client";
 import colors from "./colors";
+
+// Listen to shake events on mobile
+const myShake = new Shake();
+myShake.start();
 
 const WIDTH = 100;
 const HEIGHT = 100;
@@ -96,6 +101,10 @@ window.addEventListener("keydown", e => {
   if (e.keyCode === 27) {
     showOverlay();
   }
+});
+
+window.addEventListener("shake", () => {
+  showOverlay();
 });
 
 function hideOverlay() {
