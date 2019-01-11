@@ -92,7 +92,9 @@ document.querySelectorAll("#colors  button").forEach(button => {
       .replace(/[^0-9,]/g, "")
       .split(",")
       .map(i => +i);
+    e.target.className = "selected";
     hideOverlay();
+    setTimeout(() => e.target.className = "", 500);
   });
 });
 

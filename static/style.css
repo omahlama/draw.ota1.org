@@ -28,7 +28,7 @@ body {
   align-items: flex-start;
   justify-content: center;
 
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 #overlay > div {
@@ -69,4 +69,18 @@ body {
   margin-top: 24px;
   padding: 0 12px;
   width: 100%;
+}
+
+#colors button.selected {
+  animation: explodeOut 0.3s forwards;
+}
+
+@keyframes explodeOut {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(30);
+  }
 }
