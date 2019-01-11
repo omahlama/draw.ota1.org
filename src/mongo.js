@@ -11,6 +11,7 @@ const createClient = callback => {
     console.log("connected to mongo");
     const db = client.db();
     const pixelsCol = db.collection("pixels");
+    const eventsCol = db.collection("drawEvents");
 
     const save = data => {
       if (id) {
@@ -42,7 +43,7 @@ const createClient = callback => {
     const restore = cb => {
       pixelsCol.findOne({}).then(
         result => {
-            console.log("restored", result)
+          console.log("restored", result);
           if (result && result.pixels) {
             id = result._id;
             console.log("restored with id", id);
@@ -55,9 +56,19 @@ const createClient = callback => {
       );
     };
 
+    const logDraw = (x, y, color) => {
+      eventsCol.insertOne({
+        x,
+        y,
+        color,
+        timeStamp: Date.now()
+      });
+    };
+
     callback({
       save,
-      restore
+      restore,
+      logDraw
     });
   });
 };

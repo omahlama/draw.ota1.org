@@ -1,28 +1,73 @@
+* {
+  box-sizing: border-box;
+}
 body {
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: #fff;
-}
-
-#head {
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-#wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: #fff;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 #canvas {
-    width: 1000px;
-    height: 1000px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    cursor: default;
+  width: 100vw;
+  height: 100vh;
+  cursor: default;
 }
 
-#changes {
-    white-space: pre-wrap;
+#overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease-in-out;
+}
+
+#overlay > div {
+  background: white;
+  padding: 24px;
+  box-shadow: 0 0 20px #fff;
+  border-radius: 24px;
+  max-width: 700px;
+  margin: 24px;
+}
+
+#overlay h1 {
+  line-height: 48px;
+  font-size: 36px;
+}
+
+#overlay p {
+  line-height: 24px;
+  font-size: 16px;
+}
+
+#colors {
+  max-height: 50vh;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#colors button {
+  border: 0;
+  min-width: 48px;
+  margin: 6px;
+  padding: 0;
+}
+
+#colors button > span {
+  display: block;
+  background: #fff;
+  margin-top: 24px;
+  padding: 0 12px;
+  width: 100%;
 }

@@ -15,7 +15,7 @@ app.use(express.static("static"));
 const server = http.Server(app);
 const io = socketIO(server);
 
-createMongo(({ save, restore }) => {  
+createMongo(({ save, restore, logDraw }) => {  
   restore(pixels => {
     if(pixels) {
       state.setState(pixels);
@@ -30,6 +30,7 @@ createMongo(({ save, restore }) => {
         state.setPixel(x, y, color);
         console.log("Set pixel", x, y, color);
         io.emit("UPDATE_PIXEL", { x, y, color });
+        logDraw(x, y, color);
         save(state.getState());
       });
       socket.emit("FULL_STATE", state.getState());

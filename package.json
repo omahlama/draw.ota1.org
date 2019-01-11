@@ -9,7 +9,7 @@
   "scripts": {
     "start": "babel-node server.js",
     "build-client": "webpack -p",
-    "dev": "webpack --watch",
+    "dev": "webpack -d --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "npm run build-client"
   },
