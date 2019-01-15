@@ -6,16 +6,17 @@ const client = new MongoClient(url);
 
 let id = null;
 
-const createClient = callback => {
-  client.connect(function(err, client) {
-    console.log("connected to mongo");
-    const db = client.db();
-    const pixelsCol = db.collection("pixels");
-    const eventsCol = db.collection("drawEvents");
+async function createClient() {
+  await client.connect();
+  console.log("connected to mongo");
+  const db = client.db();
+  const pixelsCol = db.collection("pixels");
+  const eventsCol = db.collection("drawEvents");
 
-    const save = data => {
-      if (id) {
-        pixelsCol.updateOne(
+  async function save(data) {
+    if (id) {
+      try {
+        await pixelsCol.updateOne(
           {
             _id: id
           },
@@ -25,52 +26,55 @@ const createClient = callback => {
             }
           }
         );
-      } else {
-        pixelsCol.insertOne(
-          {
-            pixels: data
-          },
-          (err, result) => {
-            console.log("insert", err, result);
-            if (result && result.insertedId) {
-              id = result.insertedId;
-            }
-          }
-        );
+      } catch (e) {
+        console.error("Error saving pixels", e);
       }
-    };
+    } else {
+      try {
+        const result = await pixelsCol.insertOne({
+          pixels: data
+        });
+        console.log("insert", err, result);
+        if (result && result.insertedId) {
+          id = result.insertedId;
+        }
+      } catch (e) {
+        console.error("Error saving pixels (update)", e);
+      }
+    }
+  }
 
-    const restore = cb => {
-      pixelsCol.findOne({}).then(
-        result => {
-          console.log("restored", result);
-          if (result && result.pixels) {
-            id = result._id;
-            console.log("restored with id", id);
-            cb(result.pixels);
-          } else {
-            cb(null);
-          }
-        },
-        () => cb(null)
-      );
-    };
+  async function restore() {
+    try {
+      const result = await pixelsCol.findOne({});
+      console.log("restored", result);
+      if (result && result.pixels) {
+        id = result._id;
+        console.log("restored with id", id);
+        return result.pixels;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.error("Error restoring", e);
+      return null;
+    }
+  }
 
-    const logDraw = (x, y, color) => {
-      eventsCol.insertOne({
-        x,
-        y,
-        color,
-        timeStamp: Date.now()
-      });
-    };
-
-    callback({
-      save,
-      restore,
-      logDraw
+  async function logDraw(x, y, color) {
+    await eventsCol.insertOne({
+      x,
+      y,
+      color,
+      timeStamp: Date.now()
     });
-  });
-};
+  }
+
+  return {
+    save,
+    restore,
+    logDraw
+  };
+}
 
 export default createClient;
