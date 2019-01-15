@@ -9,6 +9,8 @@ const state = createState(100, 100);
 
 const PORT = process.env.PORT || 5000;
 
+let drawCounter = 0;
+
 async function startServer() {
   const app = express();
   app.use(express.static("static"));
@@ -17,9 +19,15 @@ async function startServer() {
   const io = socketIO(server);
 
   const { save, restore, logDraw } = await createMongo();
-  const pixels = await restore();
+  const { pixels, events } = await restore();
   if (pixels) {
     state.setState(pixels);
+    if(events) {
+      events.forEach(({ x, y, color }) => {
+        console.log('Restore from event log', x, y, color);
+        state.setPixel(x, y, color);
+      })
+    } 
   }
   io.on("connection", socket => {
     console.log("A user connected", socket.id);
@@ -31,8 +39,13 @@ async function startServer() {
       state.setPixel(x, y, color);
       console.log("Set pixel", x, y, color);
       io.emit("UPDATE_PIXEL", { x, y, color });
+      if(drawCounter > 50) {
+        console.log("Save full state");
+        save(state.getState());
+        drawCounter = 0;
+      }
       logDraw(x, y, color);
-      save(state.getState());
+      drawCounter++;
     });
     socket.emit("FULL_STATE", state.getState());
   });

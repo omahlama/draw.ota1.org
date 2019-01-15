@@ -22,7 +22,8 @@ async function createClient() {
           },
           {
             $set: {
-              pixels: data
+              pixels: data,
+              timeStamp: Date.now()
             }
           }
         );
@@ -32,7 +33,8 @@ async function createClient() {
     } else {
       try {
         const result = await pixelsCol.insertOne({
-          pixels: data
+          pixels: data,
+          timeStamp: Date.now()
         });
         console.log("insert", err, result);
         if (result && result.insertedId) {
@@ -47,11 +49,14 @@ async function createClient() {
   async function restore() {
     try {
       const result = await pixelsCol.findOne({});
-      console.log("restored", result);
       if (result && result.pixels) {
+        const eventsAfterPixels = await eventsCol.find({
+          timeStamp: { $gt: result.timeStamp}
+        }).sort({ timeStamp: 1});
+
         id = result._id;
         console.log("restored with id", id);
-        return result.pixels;
+        return { pixels: result.pixels, events: eventsAfterPixels };
       } else {
         return null;
       }
