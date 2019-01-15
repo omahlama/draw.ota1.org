@@ -27,6 +27,8 @@ const createClient = onStateChange => {
 
   return {
     setPixel: (x, y, color) => {
+      // Optimistic update, will be overwritten in UPDATE_PIXEL from server
+      state.setPixel(x, y, color);
       socket.emit('SET_PIXEL', { x, y, color });
     }
   }
