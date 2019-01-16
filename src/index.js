@@ -97,15 +97,17 @@ canvas.addEventListener('click', function canvasClick(e) {
   setPixel(pixelX, pixelY, selectedColor);
 });
 
-canvas.addEventListener('mousemove', function mouseMove(e) {
-  mousePixel = pixelFromMouseEvent(e);
-  renderMouse();
-});
-
-canvas.addEventListener('mouseleave', function mouseLeave(e) {
-  mousePixel = null;
-  renderMouse();
-});
+if(window.matchMedia("(any-hover: hover)").matches) {
+  canvas.addEventListener('mousemove', function mouseMove(e) {
+    mousePixel = pixelFromMouseEvent(e);
+    renderMouse();
+  });
+  
+  canvas.addEventListener('mouseleave', function mouseLeave(e) {
+    mousePixel = null;
+    renderMouse();
+  });
+}
 
 function setPixel(x, y, color) {
   client.setPixel(x, y, color.slice(0));
