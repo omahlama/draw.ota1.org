@@ -13,9 +13,18 @@ body {
 #canvas {
   width: 100vw;
   height: 100vh;
-  cursor: default;
+  cursor: none;
 }
 
+#mousecanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  cursor: none;
+  pointer-events: none;
+}
 #overlay {
   position: absolute;
   top: 0;
@@ -80,7 +89,7 @@ body {
 }
 
 #colors button.selected {
-  animation: explodeOut .3s forwards;
+  animation: explodeOut 0.3s forwards;
 }
 
 @keyframes explodeOut {

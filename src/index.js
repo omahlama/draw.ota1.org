@@ -13,23 +13,29 @@ const CWIDTH = WIDTH * MULTIPLIER;
 const CHEIGHT = HEIGHT * MULTIPLIER;
 
 const canvas = document.getElementById('canvas');
+const mouseCanvas = document.getElementById('mousecanvas');
 const colorSelector = document.getElementById('color');
 const overlay = document.getElementById('overlay');
 canvas.width = CWIDTH;
 canvas.height = CHEIGHT;
 const ctx = canvas.getContext('2d');
+const mouseCtx = mouseCanvas.getContext('2d');
 const imageData = ctx.createImageData(CWIDTH, CHEIGHT);
 const data = imageData.data;
 
 let changes = [];
 let selectedColor = [0, 0, 0];
 let pixels = new Array(WIDTH * HEIGHT).map(() => [0, 0, 0]);
+let mousePixel = null;
 
 function resizeCanvas() {
   const { width, height } = canvas.getBoundingClientRect();
   canvas.width = width;
   canvas.height = height;
+  mouseCanvas.width = width;
+  mouseCanvas.height = height;
   render();
+  renderMouse();
 }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
@@ -50,7 +56,24 @@ function render() {
       data[loc + 3] = 255;
     }
   }
+
   ctx.putImageData(imageData, 0, 0);
+}
+
+function renderMouse() {
+  const { height, width } = mouseCanvas;
+
+  const w = i => (i * width) / WIDTH;
+  const h = i => (i * height) / HEIGHT;
+
+  mouseCtx.clearRect(0, 0, width, height);
+  if (mousePixel) {
+    const [x, y] = mousePixel;
+    mouseCtx.fillStyle = `rgb(${selectedColor[0]}, ${selectedColor[1]}, ${
+      selectedColor[2]
+    })`;
+    mouseCtx.fillRect(w(x), h(y), w(1), h(1));
+  }
 }
 
 const client = createClient(p => {
@@ -58,15 +81,29 @@ const client = createClient(p => {
   render();
 });
 
-canvas.addEventListener('click', function canvasClick(e) {
+function pixelFromMouseEvent(e) {
   const c = canvas.getBoundingClientRect();
   const x = e.clientX - c.left;
   const y = e.clientY - c.top;
 
   const pixelX = Math.floor(x * (WIDTH / c.width));
   const pixelY = Math.floor(y * (HEIGHT / c.height));
+  return [pixelX, pixelY];
+}
 
+canvas.addEventListener('click', function canvasClick(e) {
+  const [pixelX, pixelY] = pixelFromMouseEvent(e);
   setPixel(pixelX, pixelY, selectedColor);
+});
+
+canvas.addEventListener('mousemove', function mouseMove(e) {
+  mousePixel = pixelFromMouseEvent(e);
+  renderMouse();
+});
+
+canvas.addEventListener('mouseleave', function mouseLeave(e) {
+  mousePixel = null;
+  renderMouse();
 });
 
 function setPixel(x, y, color) {
