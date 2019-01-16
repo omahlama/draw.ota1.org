@@ -15,7 +15,7 @@ export default (width = 100, height = 100) => {
 
 function randomPixel() {
     const h = rand(0, 1);
-    const s = rand(0.5, 1);
+    const s = 0;
     const l = rand(0.5, 1);
     return hslToRgb(h, s, l);
   }

@@ -22,13 +22,17 @@ async function startServer() {
   const { pixels, events } = await restore();
   if (pixels) {
     state.setState(pixels);
-    if(events) {
-      events.forEach(({ x, y, color }) => {
-        console.log('Restore from event log', x, y, color);
-        state.setPixel(x, y, color);
-      })
-    } 
   }
+  if (events) {
+    await events.forEach(({ x, y, color }) => {
+      console.log("Restore from event log", x, y, color);
+      state.setPixel(x, y, color);
+    });
+
+    console.log("Saving restored state");
+    await save(state.getState());
+  }
+
   io.on("connection", socket => {
     console.log("A user connected", socket.id);
     socket.on("disconnect", () => {
@@ -39,7 +43,7 @@ async function startServer() {
       state.setPixel(x, y, color);
       console.log("Set pixel", x, y, color);
       io.emit("UPDATE_PIXEL", { x, y, color });
-      if(drawCounter > 50) {
+      if (drawCounter > 20) {
         console.log("Save full state");
         save(state.getState());
         drawCounter = 0;
@@ -49,7 +53,6 @@ async function startServer() {
     });
     socket.emit("FULL_STATE", state.getState());
   });
-
   server.listen(PORT, () => console.log(`Running on port ${PORT}!`));
 }
 

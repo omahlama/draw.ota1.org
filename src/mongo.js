@@ -36,7 +36,7 @@ async function createClient() {
           pixels: data,
           timeStamp: Date.now()
         });
-        console.log("insert", err, result);
+        console.log("insert", result);
         if (result && result.insertedId) {
           id = result.insertedId;
         }
@@ -48,7 +48,7 @@ async function createClient() {
 
   async function restore() {
     try {
-      const result = await pixelsCol.findOne({});
+      const result = await pixelsCol.findOne({ pixels: { $ne: null }});
       if (result && result.pixels) {
         const eventsAfterPixels = await eventsCol.find({
           timeStamp: { $gt: result.timeStamp}
@@ -58,11 +58,12 @@ async function createClient() {
         console.log("restored with id", id);
         return { pixels: result.pixels, events: eventsAfterPixels };
       } else {
-        return null;
+        const eventsAfterPixels = await eventsCol.find({}).sort({ timeStamp: 1});
+        return { pixels: null, events: eventsAfterPixels};
       }
     } catch (e) {
       console.error("Error restoring", e);
-      return null;
+      return { pixels: null, events: []};
     }
   }
 
