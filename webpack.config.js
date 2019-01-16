@@ -26,7 +26,7 @@ module.exports = {
       filename: 'index.html'
     }),
     CopyWebpackPlugin([
-      { from: 'src/style.css', to: 'static'}
+      { from: 'src/style.css', to: '.'}
     ]
     )
   ],
