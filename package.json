@@ -10,6 +10,7 @@
     "start": "babel-node server.js",
     "build-client": "webpack -p",
     "dev": "webpack -d --watch",
+    "dev-server": "nodemon server.js --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "npm run build-client"
   },
@@ -28,6 +29,8 @@
     "webpack": "4.28.3"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "4.6.0",
+    "nodemon": "1.18.9",
     "webpack-cli": "3.2.1"
   }
 }
