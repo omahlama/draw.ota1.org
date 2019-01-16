@@ -1,3 +1,4 @@
+import './style.css';
 import Shake from 'shake.js';
 import createClient from './client';
 import colors from './colors';
