@@ -7,12 +7,14 @@
   },
   "main": "server.js",
   "scripts": {
+    "clean": "rm -rf static/ && mkdir static",
     "start": "babel-node server.js",
     "build-client": "webpack -p",
     "dev": "webpack -d --watch",
     "dev-server": "nodemon server.js --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm run build-client"
+    "heroku-postbuild": "npm run build-client",
+    "prettier-all": "prettier --write '**/*.*(js|jsx|ts|tsx|css|scss|scssm|json|md)'"
   },
   "author": "Olli Mahlamäki",
   "license": "MIT",

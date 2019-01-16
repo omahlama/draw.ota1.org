@@ -1,12 +1,12 @@
-const path = require("path");
-const htmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const path = require('path');
+const htmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, "static"),
-    filename: "[name].[chunkhash].js"
+    path: path.resolve(__dirname, 'static'),
+    filename: '[name].[chunkhash].js',
   },
   devtool: 'source-map',
   module: {
@@ -15,19 +15,16 @@ module.exports = {
       {
         test: /\.js/,
         exclude: /node_modules/,
-        use: ["babel-loader"]
-      }
-    ]
+        use: ['babel-loader'],
+      },
+    ],
   },
   // Plugins
   plugins: [
     new htmlWebpackPlugin({
       template: './src/index.html',
-      filename: 'index.html'
+      filename: 'index.html',
     }),
-    CopyWebpackPlugin([
-      { from: 'src/style.css', to: '.'}
-    ]
-    )
+    CopyWebpackPlugin([{ from: 'src/style.css', to: '.' }]),
   ],
 };

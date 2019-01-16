@@ -1,6 +1,6 @@
 import Shake from 'shake.js';
-import createClient from "./client";
-import colors from "./colors";
+import createClient from './client';
+import colors from './colors';
 
 // Listen to shake events on mobile
 const myShake = new Shake();
@@ -12,12 +12,12 @@ const MULTIPLIER = 10;
 const CWIDTH = WIDTH * MULTIPLIER;
 const CHEIGHT = HEIGHT * MULTIPLIER;
 
-const canvas = document.getElementById("canvas");
-const colorSelector = document.getElementById("color");
-const overlay = document.getElementById("overlay");
+const canvas = document.getElementById('canvas');
+const colorSelector = document.getElementById('color');
+const overlay = document.getElementById('overlay');
 canvas.width = CWIDTH;
 canvas.height = CHEIGHT;
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext('2d');
 const imageData = ctx.createImageData(CWIDTH, CHEIGHT);
 const data = imageData.data;
 
@@ -31,7 +31,7 @@ function resizeCanvas() {
   canvas.height = height;
   render();
 }
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 function render() {
@@ -58,7 +58,7 @@ const client = createClient(p => {
   render();
 });
 
-canvas.addEventListener("click", function canvasClick(e) {
+canvas.addEventListener('click', function canvasClick(e) {
   const c = canvas.getBoundingClientRect();
   const x = e.clientX - c.left;
   const y = e.clientY - c.top;
@@ -83,39 +83,39 @@ for (let colorname of colorNames) {
   `);
 }
 
-document.getElementById("colors").innerHTML = colorButtons.join("");
+document.getElementById('colors').innerHTML = colorButtons.join('');
 
-document.querySelectorAll("#colors  button").forEach(button => {
-  button.addEventListener("click", e => {
+document.querySelectorAll('#colors  button').forEach(button => {
+  button.addEventListener('click', e => {
     const style = window.getComputedStyle(e.target);
     selectedColor = style.backgroundColor
-      .replace(/[^0-9,]/g, "")
-      .split(",")
+      .replace(/[^0-9,]/g, '')
+      .split(',')
       .map(i => +i);
-    e.target.className = "selected";
+    e.target.className = 'selected';
     hideOverlay();
-    setTimeout(() => e.target.className = "", 500);
+    setTimeout(() => (e.target.className = ''), 500);
   });
 });
 
-window.addEventListener("keydown", e => {
+window.addEventListener('keydown', e => {
   // ESC
   if (e.keyCode === 27) {
     showOverlay();
   }
 });
 
-window.addEventListener("shake", () => {
+window.addEventListener('shake', () => {
   showOverlay();
 });
 
 function hideOverlay() {
   overlay.style.opacity = 0;
-  overlay.style.visibility = "hidden";
+  overlay.style.visibility = 'hidden';
 }
 
 function showOverlay() {
   overlay.style.opacity = 1;
-  overlay.style.visibility = "visible";
+  overlay.style.visibility = 'visible';
   3;
 }
