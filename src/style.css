@@ -53,14 +53,22 @@ body {
 #colors {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  margin: -6px;
 }
 
 #colors button {
   border: 0;
-  min-width: 48px;
+  height: 30px;
+  min-width: 60px;
+  flex: 1 1 auto;
   margin: 6px;
   padding: 0;
+}
+
+@media (min-width: 600px) {
+  #colors button {
+    min-width: 100px;
+  }
 }
 
 #colors button > span {
@@ -72,7 +80,7 @@ body {
 }
 
 #colors button.selected {
-  animation: explodeOut 0.3s forwards;
+  animation: explodeOut .3s forwards;
 }
 
 @keyframes explodeOut {

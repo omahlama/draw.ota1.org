@@ -78,7 +78,6 @@ const colorButtons = [];
 for (let colorname of colorNames) {
   colorButtons.push(`
     <button style="background-color: ${colorname}">
-      <span>${colorname}</span>
     </button>
   `);
 }
