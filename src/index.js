@@ -97,12 +97,12 @@ canvas.addEventListener('click', function canvasClick(e) {
   setPixel(pixelX, pixelY, selectedColor);
 });
 
-if(window.matchMedia("(any-hover: hover)").matches) {
+if (window.matchMedia('(any-hover: hover)').matches || typeof Touch == "undefined") {
   canvas.addEventListener('mousemove', function mouseMove(e) {
     mousePixel = pixelFromMouseEvent(e);
     renderMouse();
   });
-  
+
   canvas.addEventListener('mouseleave', function mouseLeave(e) {
     mousePixel = null;
     renderMouse();
@@ -157,4 +157,14 @@ function showOverlay() {
   overlay.style.opacity = 1;
   overlay.style.visibility = 'visible';
   3;
+}
+
+// Show texts in correct language
+const languageToShow = navigator.language === 'fi' ? 'fi' : 'en';
+document
+  .querySelectorAll(`[lang=${languageToShow}]`)
+  .forEach(el => (el.style.display = ''));
+
+if (languageToShow === 'en') {
+  document.title = 'Ota1 presents: a shared visual experience 👨🏻‍🎨';
 }
